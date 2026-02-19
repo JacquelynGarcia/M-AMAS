@@ -1,6 +1,4 @@
 title: Multi-Agent Misinformation Analysis System
 description: A multi-agent framework for analyzing and verifying misinformation online
-remote_theme: "mmistakes/minimal-mistakes"
-plugins:
-  - jekyll-remote-theme
+theme: minima
 markdown: kramdown
