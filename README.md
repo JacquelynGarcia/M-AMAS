@@ -1,1 +1,6 @@
-# M-AMAS
+# Multi-Agent Misinformation Analysis System — Website
+
+This repository contains the code for the public-facing project website.
+
+## Live Website
+https://YOUR_USERNAME.github.io/multi-agent-misinformation-website/
