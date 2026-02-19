@@ -1,20 +1,26 @@
-## Introduction
+---
+title: Multi-Agent Misinformation Analysis System
+layout: home
+---
 
-## Why Misinformation Matters
+# Introduction
 
-## Methods
+# Why Misinformation Matters
 
-<details>
-<summary>Technical Details</summary>
+# Exploratory Data Analysis
 
-</details>
+# Methods
 
-## Multi-Agent System Architecture
+## Baseline Models
 
-## Results
+## Agents
 
-## Impact and Conclusions
+# Multi-Agent System Architecture
+
+# Results
+
+# Impact and Conclusions
 
 ## Project Links
-- GitHub Repository
+- [GitHub Repository](https://github.com/amelialei/Multi-Agent-Misinformation-Analysis-System)
 - Final Report (PDF)
