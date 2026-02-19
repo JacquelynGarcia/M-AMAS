@@ -1,4 +1,6 @@
 title: Multi-Agent Misinformation Analysis System
+header_pages:
+  - index.md
 description: A multi-agent framework for analyzing and verifying misinformation online
 remote_theme: jekyll/minima
 markdown: kramdown
