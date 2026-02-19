@@ -1,6 +1,6 @@
 ---
 title: Multi-Agent Misinformation Analysis System
-layout: single
+layout: home
 ---
 
 ## Introduction
