@@ -4,3 +4,10 @@ header_pages:
 description: A multi-agent framework for analyzing and verifying misinformation online
 remote_theme: jekyll/minima
 markdown: kramdown
+
+author:
+  name: Jacquelyn Garcia, Amelia Lei
+
+minima:
+  social_links:
+    - { platform: github, user_url: "https://github.com/jacquelyngarcia" }
