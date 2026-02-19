@@ -1,8 +1,3 @@
----
-title: Multi-Agent Misinformation Analysis System
-layout: home
----
-
 ## Introduction
 
 ## Why Misinformation Matters
