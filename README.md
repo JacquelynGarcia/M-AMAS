@@ -1,4 +1,4 @@
-# Multi-Agent Misinformation Analysis System — Website
+# Multi-Agent Misinformation Analysis System
 
 This repository contains the code for the public-facing project website.
 
