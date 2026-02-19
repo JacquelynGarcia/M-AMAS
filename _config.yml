@@ -6,7 +6,7 @@ remote_theme: jekyll/minima
 markdown: kramdown
 
 author:
-  name: Jacquelyn Garcia, Amelia Lei
+  name: by Jacquelyn Garcia and Amelia Lei
 
 minima:
   social_links:
