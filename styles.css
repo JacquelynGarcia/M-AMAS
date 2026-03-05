@@ -1,20 +1,3 @@
-/* ── Misinformation detection / news credibility theme ── */
-:root {
-  --theme-bg: #f8fafc;
-  --theme-surface: #ffffff;
-  --theme-header: #0c1929;
-  --theme-header-text: #f1f5f9;
-  --theme-header-muted: #94a3b8;
-  --theme-accent: #1d4ed8;
-  --theme-accent-hover: #2563eb;
-  --theme-accent-light: #dbeafe;
-  --theme-verified: #059669;
-  --theme-caution: #b45309;
-  --theme-border: #e2e8f0;
-  --theme-text: #0f172a;
-  --theme-muted: #64748b;
-}
-
 /* Base layout */
 *,
 *::before,
@@ -27,8 +10,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: var(--theme-text);
-  background-color: var(--theme-bg);
+  color: #020617;
+  background-color: #f9fafb;
 }
 
 body {
@@ -36,7 +19,7 @@ body {
 }
 
 a {
-  color: var(--theme-accent);
+  color: #f97316;
   text-decoration: none;
 }
 
@@ -58,9 +41,9 @@ img {
 }
 
 .site-header {
-  background-color: var(--theme-header);
-  color: var(--theme-header-text);
-  border-bottom: 1px solid rgba(12, 25, 41, 0.9);
+  background-color: #0f172a;
+  color: #f9fafb;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.8);
 }
 
 .header-inner {
@@ -82,7 +65,7 @@ img {
 
 .site-subtitle {
   font-size: 0.85rem;
-  color: var(--theme-header-muted);
+  color: #c4c6db;
 }
 
 .brand {
@@ -106,20 +89,19 @@ nav {
   font-size: 0.9rem;
   padding: 0.4rem 0.7rem;
   border-radius: 999px;
-  color: #cbd5e1;
+  color: #e5e7eb;
   text-decoration: none;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .nav-link:hover,
 .nav-link:focus {
-  background-color: rgba(30, 64, 175, 0.25);
-  color: var(--theme-header-text);
+  background-color: rgba(15, 23, 42, 0.9);
 }
 
 .nav-link.active {
-  background-color: var(--theme-accent);
-  color: #ffffff;
+  background-color: #f97316;
+  color: #fffbeb;
 }
 
 .site-main {
@@ -196,14 +178,14 @@ p {
   letter-spacing: 0.16em;
   padding: 0.28rem 0.7rem;
   border-radius: 999px;
-  background-color: var(--theme-accent-light);
-  color: var(--theme-accent);
+  background-color: #fee2e2;
+  color: #b91c1c;
   font-weight: 700;
 }
 
 .pill-secondary {
-  background-color: #ecfdf5;
-  color: var(--theme-verified);
+  background-color: #e0f2fe;
+  color: #1d4ed8;
 }
 
 .muted {
