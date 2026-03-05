@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>Data · Multi-Agent Misinformation Analysis System</title>
+    <meta
+      name="description"
+      content="Datasets and preprocessing details for the Multi-Agent Misinformation Analysis System, including LIAR-PLUS and scraped PolitiFact data."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site">
+      <header class="site-header">
+        <div class="header-inner" aria-label="Site header">
+          <div class="brand">
+            <div class="site-title">Multi-Agent Misinformation Analysis System</div>
+            <div class="site-subtitle">DSC 180B Capstone · Winter 2026</div>
+          </div>
+          <nav aria-label="Main">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link active" href="data.html">Data</a>
+            <a class="nav-link" href="methods.html">Methods</a>
+            <a class="nav-link" href="experiments.html">Experiments</a>
+            <a class="nav-link" href="results.html">Results</a>
+            <a class="nav-link" href="team.html">Team</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="site-main">
+        <div class="content">
+          <section aria-labelledby="data-heading">
+            <div class="pill">Data</div>
+            <h1 id="data-heading">Datasets &amp; preprocessing</h1>
+            <p class="lede">
+              Our factuality models are trained on an extended version of the
+              <strong>LIAR-PLUS</strong> dataset, augmented with more recent scraped PolitiFact data.
+              This section documents what we used, how we processed it, and what assumptions
+              and limitations come with those choices.
+            </p>
+          </section>
+
+          <section aria-labelledby="liar-heading">
+            <h2 id="liar-heading">Core dataset: LIAR-PLUS</h2>
+            <p>
+              We use the <strong>LIAR-PLUS</strong> dataset (Alhindi et al. 2018), an extension of the
+              LIAR corpus (Wang 2017), as the primary supervised signal for our factuality
+              models. LIAR-PLUS contains over <strong>12,800 short political statements</strong> that have
+              been fact-checked by PolitiFact.
+            </p>
+            <ul>
+              <li>
+                <strong>Labels</strong>: six categorical truth ratings from
+                <em>pants-on-fire</em> to <em>true</em>.
+              </li>
+              <li>
+                <strong>Metadata</strong>: speaker name, occupation, political party, state, subject, and
+                justification text.
+              </li>
+              <li>
+                <strong>Splits</strong>: predefined train / validation / test splits provided by the
+                dataset authors.
+              </li>
+            </ul>
+            <p>
+              These metadata fields allow us to model factuality using both <strong>linguistic
+              features</strong> (e.g., wording, sentiment, repetition) and <strong>socio-political context</strong>
+              (e.g., speaker, party, topic).
+            </p>
+          </section>
+
+          <section aria-labelledby="augmented-heading">
+            <h2 id="augmented-heading">Augmented with recent PolitiFact scraping</h2>
+            <p>
+              LIAR-PLUS was collected several years ago. To reduce temporal bias and better
+              match the current misinformation landscape, we <strong>merged in newer PolitiFact
+              statements</strong> that we scraped separately.
+            </p>
+            <p>
+              These additional statements:
+            </p>
+            <ul>
+              <li>Follow the same short-claim format as LIAR-PLUS.</li>
+              <li>Reuse PolitiFact’s truth ratings and justification text where available.</li>
+              <li>
+                Expand coverage to more recent political topics, actors, and narratives, making
+                our models less anchored to a single election cycle.
+              </li>
+            </ul>
+            <p class="note">
+              All scraping respects PolitiFact’s public pages and is used solely for research and
+              educational purposes within the context of this capstone project.
+            </p>
+          </section>
+
+          <section aria-labelledby="preprocess-heading">
+            <h2 id="preprocess-heading">Preprocessing &amp; feature-ready corpus</h2>
+            <p>
+              Before training, we perform several preprocessing steps to create a <strong>clean, uniform
+              corpus</strong> across original and scraped data:
+            </p>
+            <ul>
+              <li>Standardize column names across splits and sources.</li>
+              <li>Remove redundant index or ID columns that do not carry information.</li>
+              <li>
+                Normalize text: strip whitespace, convert to lowercase during tokenization, and
+                remove file suffixes such as “.json” from IDs.
+              </li>
+              <li>
+                Convert metadata fields into consistent formats (e.g., categorical encodings for
+                party, binary indicators for subject domains).
+              </li>
+              <li>Derive helper variables for later feature extraction (counts, ratios, flags).</li>
+            </ul>
+            <p>
+              The result is a dataset that can be fed directly into our feature engineering
+              pipelines for the four factuality factors, with <strong>reproducible transformations</strong>
+              implemented in code.
+            </p>
+          </section>
+
+          <section aria-labelledby="factors-heading">
+            <h2 id="factors-heading">Factuality factors derived from data</h2>
+            <p>
+              From this corpus, we derive labels and features tailored to each of our four
+              factuality factors:
+            </p>
+            <div class="grid grid-2">
+              <div class="card">
+                <div class="card-title">Frequency heuristic</div>
+                <div class="card-body">
+                  Captures how strongly a statement implies truth by
+                  <strong>repetition, buzzwords, or appeals to common belief</strong>. Features include:
+                  TF-IDF mean, average token frequency across the corpus, a buzzword score
+                  based on generalized phrases (“always”, “everyone”, “experts agree”), and a
+                  repetition ratio.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Sensationalism</div>
+                <div class="card-body">
+                  Measures <strong>emotional exaggeration and dramatic framing</strong>. We engineer
+                  features like exclamation counts, all-caps tokens, and frequencies of
+                  sensational terms (“shocking”, “explosive”, “unprecedented”), plus sentiment
+                  polarity and subjectivity scores. These are combined with TF-IDF vectors.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Malicious account</div>
+                <div class="card-body">
+                  Approximates language associated with <strong>inauthentic or spam-like behavior</strong>,
+                  using features such as average token length, repetition score, link count,
+                  mention count, punctuation ratio, and uppercase ratio alongside TF-IDF mean.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Naive realism</div>
+                <div class="card-body">
+                  Estimates how dogmatically a statement presents its viewpoint as
+                  <strong>self-evident truth</strong>. Features include ratios of absolutist terms
+                  (“always”, “never”, “clearly”), cautious terms (“maybe”, “might”, “possibly”),
+                  and dismissive language (“biased”, “brainwashed”), plus sentiment
+                  subjectivity and polarity.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="data-limits-heading">
+            <h2 id="data-limits-heading">Limitations &amp; validity considerations</h2>
+            <p>
+              While LIAR-PLUS is a widely used benchmark, it comes with important
+              <strong>limitations</strong>:
+            </p>
+            <ul>
+              <li>
+                The dataset focuses on <strong>short political statements</strong>, which may not capture
+                the full complexity of long-form articles or multimodal content.
+              </li>
+              <li>
+                Labels are derived from <strong>PolitiFact’s editorial judgments</strong>, which encode
+                specific norms and may not fully generalize across cultures or domains.
+              </li>
+              <li>
+                Our additional scraping introduces potential <strong>selection bias</strong> toward higher
+                profile, fact-checked claims.
+              </li>
+            </ul>
+            <p>
+              To mitigate leakage and validity issues, we:
+            </p>
+            <ul>
+              <li>Respect the original train / validation / test splits for supervised models.</li>
+              <li>
+                Keep scraped data <strong>disjoint</strong> from our hand-labeled article evaluation set
+                used for reporting accuracy.
+              </li>
+              <li>
+                Avoid directly training on the specific news articles later used to evaluate the
+                multi-agent system.
+              </li>
+            </ul>
+            <p class="note">
+              For full reproducibility details, including exact preprocessing scripts and feature
+              definitions, please see the project repository on GitHub.
+            </p>
+          </section>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div>
+            <strong>DSC 180B Capstone · UC San Diego</strong>
+            <div class="muted">Data documentation</div>
+          </div>
+          <div class="muted">
+            Dataset: LIAR-PLUS plus additional scraped PolitiFact statements, processed for
+            factuality factor modeling.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>Methods · Multi-Agent Misinformation Analysis System</title>
+    <meta
+      name="description"
+      content="Methodology for the Multi-Agent Misinformation Analysis System, including agent architecture, tool calling, and score aggregation."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site">
+      <header class="site-header">
+        <div class="header-inner" aria-label="Site header">
+          <div class="brand">
+            <div class="site-title">Multi-Agent Misinformation Analysis System</div>
+            <div class="site-subtitle">DSC 180B Capstone · Winter 2026</div>
+          </div>
+          <nav aria-label="Main">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link" href="data.html">Data</a>
+            <a class="nav-link active" href="methods.html">Methods</a>
+            <a class="nav-link" href="experiments.html">Experiments</a>
+            <a class="nav-link" href="results.html">Results</a>
+            <a class="nav-link" href="team.html">Team</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="site-main">
+        <div class="content">
+          <section aria-labelledby="methods-heading">
+            <div class="pill">Methods</div>
+            <h1 id="methods-heading">Hybrid multi-agent factuality framework</h1>
+            <p class="lede">
+              Our system combines a <strong>multi-agent orchestration layer</strong> built with Google’s
+              Agent Development Kit (ADK) and a set of <strong>supervised factuality models</strong> trained
+              on LIAR-PLUS. The agents and models collaborate to evaluate news articles along
+              four factuality dimensions and produce an interpretable, overall credibility
+              assessment.
+            </p>
+          </section>
+
+          <section aria-labelledby="architecture-heading">
+            <h2 id="architecture-heading">System architecture overview</h2>
+            <p>
+              We decompose factuality evaluation into three layers:
+            </p>
+            <ol>
+              <li>
+                <strong>Claim extraction and verification</strong> – identify and verify atomic factual
+                claims in an article.
+              </li>
+              <li>
+                <strong>Parallel factuality analysis</strong> – four specialized LLM agents independently
+                score different factuality factors.
+              </li>
+              <li>
+                <strong>Sequential score aggregation</strong> – a merger agent combines factor-level
+                outputs into an overall truthfulness assessment.
+              </li>
+            </ol>
+            <div class="card">
+              <div class="card-title">Three-layer multi-agent pipeline (conceptual)</div>
+              <div class="card-body">
+                <strong>Input</strong>: full news article text
+                <br />
+                <strong>Layer 1</strong>: Claim Extraction Agent → Claim Verification Agent (with web
+                search)
+                <br />
+                <strong>Layer 2</strong>: Four factuality factor agents running in parallel (frequency
+                heuristic, sensationalism, malicious account, naive realism)
+                <br />
+                <strong>Layer 3</strong>: Merger Agent aggregates factor scores and justifications into a
+                final credibility score and explanation.
+              </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="claims-heading">
+            <h2 id="claims-heading">Layer 1: Claim extraction &amp; verification</h2>
+            <h3>Claim extraction agent</h3>
+            <p>
+              The claim extraction agent decomposes an article into <strong>testable factual claims</strong>
+              that satisfy three constraints:
+            </p>
+            <ul>
+              <li>Factual rather than purely opinion or rhetoric.</li>
+              <li>Testable against external sources.</li>
+              <li>Self-contained and unambiguous.</li>
+            </ul>
+            <p>
+              The agent outputs a structured list of claims that downstream components treat as
+              the <strong>unit of verification</strong>.
+            </p>
+
+            <h3>Claim verification agent with external search</h3>
+            <p>
+              For each extracted claim, a verification agent calls a <strong>google_search</strong> tool
+              within ADK to retrieve relevant evidence. For every claim, the agent:
+            </p>
+            <ol>
+              <li>Constructs a targeted search query.</li>
+              <li>Calls the search tool to retrieve candidate sources.</li>
+              <li>Assesses the credibility and agreement of retrieved information.</li>
+              <li>Assigns a verification status and confidence score.</li>
+            </ol>
+            <p>
+              This design follows a <strong>retrieval-augmented reasoning</strong> pattern: instead of
+              relying solely on an LLM’s internal knowledge, it explicitly grounds its judgments
+              in up-to-date external evidence, reducing hallucinations.
+            </p>
+          </section>
+
+          <section aria-labelledby="factors-heading">
+            <h2 id="factors-heading">Layer 2: Parallel factuality factor agents</h2>
+            <p>
+              The core analysis layer consists of four independent <strong>LlmAgent</strong> instances, each
+              responsible for one factuality factor:
+            </p>
+            <div class="grid grid-2">
+              <div class="card">
+                <div class="card-title">Frequency heuristic agent</div>
+                <div class="card-body">
+                  Scores how strongly the article leans on <strong>repetition, bandwagon language, and
+                  popularity cues</strong> as substitutes for evidence. Input: full article text and
+                  claim-level context; Output: score (0–2), justification, confidence.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Sensationalism agent</div>
+                <div class="card-body">
+                  Evaluates <strong>emotional exaggeration and dramatic framing</strong>, using both
+                  lexical cues (e.g., all-caps, exclamation marks, “shocking” adjectives) and
+                  sentiment analysis.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Malicious account agent</div>
+                <div class="card-body">
+                  Detects language patterns associated with <strong>inauthentic behavior</strong>, such as
+                  spam-like link density, high mention counts, or unusual punctuation and
+                  capitalization ratios.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Naive realism agent</div>
+                <div class="card-body">
+                  Measures how dogmatically the article presents its viewpoint as <strong>the only
+                  reasonable truth</strong>, focusing on absolutist phrasing, dismissal of alternatives,
+                  and lack of uncertainty markers.
+                </div>
+              </div>
+            </div>
+            <p>
+              All four agents are grouped under a <strong>ParallelAgent</strong> so that they can execute
+              concurrently, improving throughput. Importantly, agents do <strong>not share
+              intermediate analysis</strong>, preventing cross-contamination between factors.
+            </p>
+          </section>
+
+          <section aria-labelledby="tools-heading">
+            <h2 id="tools-heading">Tools: ML models as callable functions</h2>
+            <p>
+              Each factuality factor agent has access to a <strong>supervised model</strong> exposed as a
+              callable tool within its prompt. During a typical run:
+            </p>
+            <ol>
+              <li>The agent performs structured reasoning over the article text.</li>
+              <li>
+                It calls the corresponding predictive model (e.g.,
+                <code>get_frequency_heuristic_prediction(text)</code>) to get a score and confidence.
+              </li>
+              <li>
+                It then combines its <strong>own qualitative analysis</strong> with the model prediction to
+                produce a final score and justification.
+              </li>
+            </ol>
+            <p>
+              The prompt explicitly instructs agents to treat model outputs as
+              <strong>informative but not ground truth</strong>. If an agent disagrees with the model
+              score, it must explain why. This hybrid design leverages:
+            </p>
+            <ul>
+              <li>
+                Supervised models for <strong>pattern-based grounding</strong> learned from thousands of
+                labeled statements.
+              </li>
+              <li>
+                LLMs for <strong>contextual nuance and interpretability</strong> at the article level.
+              </li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="orchestration-heading">
+            <h2 id="orchestration-heading">Layer 3: Sequential orchestration &amp; aggregation</h2>
+            <p>
+              We use a <strong>SequentialAgent</strong> as the root controller of the system. Its job is to:
+            </p>
+            <ol>
+              <li>Invoke claim extraction and verification.</li>
+              <li>Launch parallel factuality factor evaluations.</li>
+              <li>Pass all factor outputs to a merger agent.</li>
+            </ol>
+            <p>
+              The <strong>Merger Agent</strong>:
+            </p>
+            <ul>
+              <li>
+                Synthesizes the four factor-level outputs into an <strong>overall truthfulness
+                score</strong>.
+              </li>
+              <li>
+                Produces a joint <strong>natural language explanation</strong> that highlights which
+                factors drove the final assessment.
+              </li>
+              <li>
+                Enforces a strict JSON schema for all agent outputs, improving reliability and
+                making it easier to connect to front-end clients.
+              </li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="a2a-heading">
+            <h2 id="a2a-heading">Agent-to-Agent (A2A) deployment</h2>
+            <p>
+              To make the system easier to integrate into other applications, we deploy each
+              specialized factuality factor agent as an <strong>Agent-to-Agent (A2A)</strong> service using
+              ADK’s <code>to_a2a</code> functionality.
+            </p>
+            <ul>
+              <li>
+                Each agent can run as a <strong>standalone service</strong> on its own network port, ready to
+                be composed into broader pipelines.
+              </li>
+              <li>
+                Execution environments are <strong>isolated</strong>, guaranteeing that prompts, tool calls,
+                and outputs remain cleanly separated between factors.
+              </li>
+            </ul>
+            <p>
+              This A2A structure lets us plug our agents into interactive user interfaces and
+              other automated workflows without rewriting their internal logic.
+            </p>
+          </section>
+
+          <section aria-labelledby="methods-limits-heading">
+            <h2 id="methods-limits-heading">Methodological trade-offs</h2>
+            <p>
+              Our design makes several <strong>intentional trade-offs</strong>:
+            </p>
+            <ul>
+              <li>
+                <strong>Pros</strong>: interpretable factor scores, modular agents, and explicit grounding
+                in supervised models and external evidence.
+              </li>
+              <li>
+                <strong>Cons</strong>: increased <strong>computational overhead</strong> from multi-agent orchestration
+                and multi-iteration reasoning (detailed on the Experiments and Results pages).
+              </li>
+            </ul>
+            <p>
+              We discuss these trade-offs further when we look at runtime cost vs. performance
+              gains for different prompting strategies.
+            </p>
+          </section>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div>
+            <strong>DSC 180B Capstone · UC San Diego</strong>
+            <div class="muted">Methodology overview</div>
+          </div>
+          <div class="muted">
+            Hybrid multi-agent + ML framework implemented with Google ADK and supervised
+            models trained on LIAR-PLUS.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+

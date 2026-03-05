@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>Results · Multi-Agent Misinformation Analysis System</title>
+    <meta
+      name="description"
+      content="Empirical results for the Multi-Agent Misinformation Analysis System, including accuracy across prompting strategies and qualitative findings."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site">
+      <header class="site-header">
+        <div class="header-inner" aria-label="Site header">
+          <div class="brand">
+            <div class="site-title">Multi-Agent Misinformation Analysis System</div>
+            <div class="site-subtitle">DSC 180B Capstone · Winter 2026</div>
+          </div>
+          <nav aria-label="Main">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link" href="data.html">Data</a>
+            <a class="nav-link" href="methods.html">Methods</a>
+            <a class="nav-link" href="experiments.html">Experiments</a>
+            <a class="nav-link active" href="results.html">Results</a>
+            <a class="nav-link" href="team.html">Team</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="site-main">
+        <div class="content">
+          <section aria-labelledby="results-heading">
+            <div class="pill">Results</div>
+            <h1 id="results-heading">Key results &amp; evaluation</h1>
+            <p class="lede">
+              Our main result is that <strong>carefully structured prompting</strong>—particularly
+              In-Context Learning and Fractal Chain-of-Thought—substantially improves
+              factuality factor accuracy compared to naive baselines, while reducing
+              hallucinations and misclassifications.
+            </p>
+            <p class="tagline">
+              We evaluate all prompting strategies on <strong>40 hand-labeled news articles</strong> and
+              report accuracy per factuality factor.
+            </p>
+          </section>
+
+          <section aria-labelledby="summary-heading">
+            <h2 id="summary-heading">Summary of accuracies</h2>
+            <p>
+              Table 1 (from the report) summarizes accuracy across prompting strategies and
+              factuality factors. Below we highlight the <strong>most important trends</strong> rather than
+              reproducing the full table.
+            </p>
+            <div class="table-wrapper" role="region" aria-label="Accuracy summary by prompting method">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Prompt</th>
+                    <th>Frequency heuristic</th>
+                    <th>Malicious account</th>
+                    <th>Sensationalism</th>
+                    <th>Naive realism</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Base</td>
+                    <td>0.30</td>
+                    <td>0.10</td>
+                    <td>0.43</td>
+                    <td>0.38</td>
+                  </tr>
+                  <tr>
+                    <td>Chain-of-Thought</td>
+                    <td>0.40</td>
+                    <td>0.05</td>
+                    <td>0.58</td>
+                    <td>0.38</td>
+                  </tr>
+                  <tr>
+                    <td>In-Context Learning (ICL)</td>
+                    <td>0.68</td>
+                    <td>0.55</td>
+                    <td>0.58</td>
+                    <td>0.45</td>
+                  </tr>
+                  <tr>
+                    <td>Function Calling</td>
+                    <td>0.53</td>
+                    <td>0.13</td>
+                    <td>0.50</td>
+                    <td>0.40</td>
+                  </tr>
+                  <tr>
+                    <td>FCoT 3</td>
+                    <td>0.53</td>
+                    <td>0.95</td>
+                    <td>0.58</td>
+                    <td>0.48</td>
+                  </tr>
+                  <tr class="highlight-row">
+                    <td>FCoT 4 (final)</td>
+                    <td>0.65</td>
+                    <td>0.95</td>
+                    <td>0.68</td>
+                    <td>0.40</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="note">
+              Values are accuracies on our 40-article evaluation set. FCoT 1–2 and an
+              additional FCoT variant with a lighter model are omitted for brevity; see the
+              written report for the full table.
+            </p>
+          </section>
+
+          <section aria-labelledby="findings-heading">
+            <h2 id="findings-heading">Factor-wise findings</h2>
+            <div class="grid grid-2">
+              <div class="card">
+                <div class="card-title">Frequency heuristic</div>
+                <div class="card-body">
+                  Accuracy jumps from <strong>0.40</strong> (CoT) to <strong>0.675</strong> with ICL and stabilizes
+                  around <strong>0.65</strong> with FCoT 4. The big gain from ICL suggests that clearly
+                  labeled examples are especially effective for teaching the model the
+                  difference between legitimate consensus and manipulative “everyone knows”
+                  rhetoric.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Malicious account</div>
+                <div class="card-body">
+                  The Malicious Account factor sees the most dramatic improvement, from
+                  <strong>0.10</strong> (base) to <strong>0.95</strong> (FCoT 3–4). Early prompts often over-predicted
+                  deception, even hallucinating article sources. FCoT’s hallucination
+                  constraints and multi-iteration analysis make the agent much more
+                  conservative and accurate.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Sensationalism</div>
+                <div class="card-body">
+                  Sensationalism accuracy is relatively stable across prompts, hovering around
+                  <strong>0.50–0.68</strong>. FCoT 4 gives the best performance (0.675) but the gain over
+                  ICL is modest, suggesting that simple lexical and sentiment features already
+                  capture much of the signal.
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Naive realism</div>
+                <div class="card-body">
+                  Naive Realism is the <strong>hardest factor</strong> to optimize. Accuracy improves only
+                  slightly from <strong>0.38</strong> (base) to the mid-0.40s for most advanced prompts and
+                  <strong>remains the lowest-performing factor</strong> overall. This suggests that dogmatic
+                  perspective-taking is more subtle and context-dependent than the other
+                  heuristics.
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="qualitative-heading">
+            <h2 id="qualitative-heading">Qualitative evaluation &amp; failure modes</h2>
+            <p>
+              Our case study on the Daily Wire article highlights how prompts affect
+              <strong>qualitative behavior</strong>:
+            </p>
+            <ul>
+              <li>
+                Base prompts sometimes treat biased but legitimate outlets as
+                <strong>“clearly deceptive”</strong>, hallucinating links to satire sites or mislabeling
+                political roles.
+              </li>
+              <li>
+                Early prompts conflate quoted rhetoric with author voice, penalizing articles
+                that are simply reporting extreme statements rather than endorsing them.
+              </li>
+              <li>
+                FCoT prompts, especially FCoT 4, are more likely to attribute claims correctly
+                to identifiable public figures and to differentiate reporting from endorsement.
+              </li>
+            </ul>
+            <p>
+              Remaining <strong>failure modes</strong> include:
+            </p>
+            <ul>
+              <li>
+                Difficulty distinguishing satire or parody content without explicit cues in the
+                text.
+              </li>
+              <li>
+                Limited robustness on topics or linguistic styles very different from the
+                political content in LIAR-PLUS.
+              </li>
+              <li>
+                Occasional overconfidence when the article is short and ambiguous.
+              </li>
+            </ul>
+          </section>
+
+          <section aria-labelledby="cost-heading">
+            <h2 id="cost-heading">Computation cost vs. reliability</h2>
+            <p>
+              Fractal Chain-of-Thought improves accuracy and reduces hallucination, but it
+              does so by:
+            </p>
+            <ul>
+              <li>Enforcing <strong>three internal analysis iterations</strong> per agent.</li>
+              <li>Requiring explicit coverage checklists and objective scores per iteration.</li>
+              <li>
+                Running four factuality agents in <strong>parallel</strong> for each article, each with its own
+                tool calls.
+              </li>
+            </ul>
+            <p>
+              This leads to noticeably higher <strong>token usage and wall-clock time</strong> compared to
+              base prompts. For research and high-stakes analysis, this trade-off is acceptable;
+              for real-time deployment, one might prefer a lighter prompt (e.g., ICL + tool
+              calling) that balances cost and performance.
+            </p>
+          </section>
+
+          <section aria-labelledby="implications-heading">
+            <h2 id="implications-heading">Implications &amp; next steps</h2>
+            <p>
+              Our results support three broader claims:
+            </p>
+            <ul>
+              <li>
+                <strong>Reasoning scaffolds matter</strong> at least as much as model size. Well-designed
+                prompts and multi-step reasoning can substantially improve factuality
+                evaluation without changing the underlying base model.
+              </li>
+              <li>
+                <strong>Confidence calibration</strong> and hallucination constraints are essential for
+                trustworthy LLM-based evaluators.
+              </li>
+              <li>
+                Refining factor definitions (especially for Malicious Account and Naive
+                Realism) can align model outputs much more closely with human judgments.
+              </li>
+            </ul>
+            <p>
+              Future work should:
+            </p>
+            <ul>
+              <li>Scale evaluation to larger and more diverse article sets.</li>
+              <li>Test cross-model generalization beyond the specific Gemini variants used here.</li>
+              <li>
+                Explore automated ways to design <strong>objective functions</strong> tailored to new
+                misinformation heuristics.
+              </li>
+            </ul>
+          </section>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div>
+            <strong>DSC 180B Capstone · UC San Diego</strong>
+            <div class="muted">Results &amp; evaluation</div>
+          </div>
+          <div class="muted">
+            Structured prompting and multi-agent reasoning significantly improve factuality
+            assessment accuracy over naive baselines.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>Multi-Agent Misinformation Analysis System</title>
+    <meta
+      name="description"
+      content="A multi-agent framework for automated factuality evaluation of online text, combining machine learning and large language models."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="site">
+      <header class="site-header">
+        <div class="header-inner" aria-label="Site header">
+          <div class="brand">
+            <div class="site-title">Multi-Agent Misinformation Analysis System</div>
+            <div class="site-subtitle">DSC 180B Capstone · Winter 2026</div>
+          </div>
+          <nav aria-label="Main">
+            <a class="nav-link active" href="index.html">Home</a>
+            <a class="nav-link" href="data.html">Data</a>
+            <a class="nav-link" href="methods.html">Methods</a>
+            <a class="nav-link" href="experiments.html">Experiments</a>
+            <a class="nav-link" href="results.html">Results</a>
+            <a class="nav-link" href="team.html">Team</a>
+          </nav>
+        </div>
+      </header>
+
+      <main class="site-main">
+        <div class="content">
+          <section aria-labelledby="hero-heading">
+            <div class="pill">HOME</div>
+            <h1 id="hero-heading">
+              An agentic system for explaining how online text misleads
+            </h1>
+            <p class="lede">
+              We build a <strong>multi-agent factuality evaluation system</strong> that combines
+              machine learning models and large language models to analyze news articles along
+              several factuality factors (frequency heuristic, sensationalism, echo chamber, and
+              malicious accounts). Our goal is to help everyday users
+              <strong>independently assess credibility</strong> instead of relying on disappearing
+              centralized fact-checking programs.
+            </p>
+            <p class="tagline">
+              In a web where fact-checking teams are being cut and generative AI makes it trivial
+              to manufacture convincing misinformation, users need tools that make credibility
+              <strong>transparent, interpretable, and actionable</strong>.
+            </p>
+
+            <div class="hero-grid" aria-label="Project overview">
+              <div class="hero-panel" aria-label="Core story">
+                <h2>What we built</h2>
+                <ul class="hero-list">
+                  <li>
+                    <span class="hero-list-bullet" aria-hidden="true">●</span>
+                    <span>
+                      A <strong>three-layer multi-agent system</strong> in Google ADK that performs
+                      claim extraction, parallel factuality analysis, and score aggregation.
+                    </span>
+                  </li>
+                  <li>
+                    <span class="hero-list-bullet" aria-hidden="true">●</span>
+                    <span>
+                      Four <strong>supervised models</strong> trained on LIAR-PLUS for frequency
+                      heuristic, sensationalism, malicious account, and naive realism.
+                    </span>
+                  </li>
+                  <li>
+                    <span class="hero-list-bullet" aria-hidden="true">●</span>
+                    <span>
+                      A series of <strong>prompting experiments</strong> from zero-shot baselines to
+                      <em>Fractal Chain-of-Thought</em> (FCoT) reasoning with tool calling.
+                    </span>
+                  </li>
+                  <li>
+                    <span class="hero-list-bullet" aria-hidden="true">●</span>
+                    <span>
+                      An <strong>interactive factuality evaluation interface</strong> that exposes the
+                      agents and models to end users.
+                    </span>
+                  </li>
+                </ul>
+
+                <div class="hero-actions" aria-label="Key links">
+                  <a
+                    class="btn btn-primary"
+                    href="https://github.com/amelialei/Multi-Agent-Misinformation-Analysis-System"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View GitHub repository
+                  </a>
+                  <a
+                    class="btn btn-ghost"
+                    href="results.html"
+                  >
+                    Jump to key results
+                  </a>
+                </div>
+              </div>
+
+              <aside class="hero-panel" aria-label="At-a-glance metrics">
+                <div class="pill pill-secondary">At a glance</div>
+                <h2>Evaluation snapshot</h2>
+                <p class="muted">
+                  On 40 hand-labeled news articles, our best prompts substantially improve
+                  factuality factor accuracy over naive baselines.
+                </p>
+                <div class="hero-metrics">
+                  <div class="metric">
+                    <div class="metric-label">Best FCoT accuracy</div>
+                    <div class="metric-value">0.95</div>
+                    <div class="metric-caption">Malicious Account (FCoT&nbsp;3–4)</div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label">ICL improvement</div>
+                    <div class="metric-value">+0.28</div>
+                    <div class="metric-caption">
+                      Frequency Heuristic (0.40 → 0.675)
+                    </div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label">Articles evaluated</div>
+                    <div class="metric-value">40</div>
+                    <div class="metric-caption">Hand-labeled ground truth set</div>
+                  </div>
+                  <div class="metric">
+                    <div class="metric-label">Factuality factors</div>
+                    <div class="metric-value">4</div>
+                    <div class="metric-caption">
+                      Frequency, Malicious, Sensationalism, Naive Realism
+                    </div>
+                  </div>
+                </div>
+                <p class="note">
+                  Evaluation details and full tables are on the <a href="results.html">Results</a>
+                  page.
+                </p>
+              </aside>
+            </div>
+          </section>
+
+          <section aria-labelledby="problem-heading">
+            <h2 id="problem-heading">Problem &amp; motivation</h2>
+            <p>
+              Fact-checking programs at large platforms have been <strong>scaled back or shut
+              down</strong>, even as generative AI makes it trivial to produce realistic but deceptive
+              content. Traditional pipelines that rely on centralized labels and human
+              fact-checkers cannot keep up with the <strong>volume, speed, and subtlety</strong> of
+              modern misinformation.
+            </p>
+            <p>
+              We focus on <strong>linguistic and contextual mechanisms</strong> that make content
+              misleading even when individual sentences are technically true: repetition as
+              evidence, emotional framing, bandwagon rhetoric, and one-sided narratives that
+              omit key context. Our target users are
+              <strong>curious readers, journalists, and researchers</strong> who want interpretable
+              signals about how a piece of text might be manipulating them.
+            </p>
+          </section>
+
+          <section aria-labelledby="approach-heading">
+            <h2 id="approach-heading">Approach in one screen</h2>
+            <div class="grid grid-2">
+              <div class="card">
+                <div class="card-title">Multi-agent architecture</div>
+                <div class="card-body">
+                  We build our system in three layers using Google’s Agent Development Kit:
+                  (1) a <strong>claim extraction and verification</strong> pipeline augmented with web
+                  search, (2) a <strong>parallel factuality analysis layer</strong> with four specialized
+                  LLM agents, and (3) a <strong>sequential aggregation layer</strong> that merges scores
+                  into an overall credibility assessment.
+                </div>
+                <div class="card-tags" aria-label="Related pages">
+                  <span class="tag">See: <a href="methods.html">Methods</a></span>
+                  <span class="tag tag-outline">Multi-agent ADK</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-title">Supervised factuality models</div>
+                <div class="card-body">
+                  Using the <strong>LIAR-PLUS</strong> dataset (12.8K fact-checked political statements
+                  plus scraped PolitiFact extensions), we train four supervised models to score
+                  frequency heuristic, sensationalism, malicious accounts, and naive realism from
+                  linguistic features and metadata. These models are exposed to the agents as
+                  <strong>callable tools</strong>.
+                </div>
+                <div class="card-tags">
+                  <span class="tag">See: <a href="data.html">Data</a></span>
+                  <span class="tag tag-outline">ML as tools</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-title">Prompting &amp; reasoning design</div>
+                <div class="card-body">
+                  We run a sequence of prompting experiments: <strong>zero-shot baselines</strong>,
+                  <strong>Chain-of-Thought</strong>, <strong>In-Context Learning</strong> with ten examples,
+                  <strong>tool calling</strong>, and four iterations of
+                  <strong>Fractal Chain-of-Thought (FCoT)</strong> with explicit objective functions for
+                  coverage and hallucination control.
+                </div>
+                <div class="card-tags">
+                  <span class="tag">See: <a href="experiments.html">Experiments</a></span>
+                  <span class="tag tag-outline">Prompt engineering</span>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-title">Evaluation &amp; limitations</div>
+                <div class="card-body">
+                  On our 40-article ground truth set, structured prompts <strong>consistently beat</strong>
+                  naive baselines, especially for Malicious Account detection. However, Naive
+                  Realism remains challenging, and FCoT introduces <strong>higher compute costs</strong>
+                  due to multi-iteration reasoning. We discuss these trade-offs and failure modes
+                  in detail.
+                </div>
+                <div class="card-tags">
+                  <span class="tag">See: <a href="results.html">Results</a></span>
+                  <span class="tag tag-outline">Limitations</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="so-what-heading">
+            <h2 id="so-what-heading">So what? How to use this</h2>
+            <p>
+              Our system is not a binary “true / false” oracle. Instead, it surfaces
+              <strong>multiple interpretable signals</strong> about how a piece of text may mislead and
+              explains <strong>why</strong> it assigned each score. This is intended to:
+            </p>
+            <ul>
+              <li>
+                Help readers <strong>spot rhetorical tricks</strong> like repetition-as-evidence and
+                emotionally charged framing.
+              </li>
+              <li>
+                Give journalists and researchers a <strong>diagnostic lens</strong> for comparing outlets,
+                articles, or time periods.
+              </li>
+              <li>
+                Provide a <strong>template for building safer LLM-based evaluators</strong> that emphasize
+                structured reasoning, calibration, and tool grounding.
+              </li>
+            </ul>
+            <div class="callout" aria-label="Demo and reproducibility">
+              <div class="callout-title">Repo &amp; reproducibility</div>
+              <p>
+                All code, models, and experiment scripts are available in our public GitHub
+                repository:
+                <a
+                  href="https://github.com/amelialei/Multi-Agent-Misinformation-Analysis-System"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Multi-Agent-Misinformation-Analysis-System</a
+                >.
+                Please see the repository README for up-to-date installation and demo
+                instructions.
+              </p>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-inner">
+          <div>
+            <strong>DSC 180B Capstone · UC San Diego</strong>
+            <div class="muted">Winter 2026</div>
+          </div>
+          <div class="muted">
+            Website content distilled from the final report
+            <em>“Multi-Agent Misinformation Analysis System.”</em>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+
