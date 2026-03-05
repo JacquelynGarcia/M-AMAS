@@ -37,10 +37,10 @@
         <div class="content">
           <section aria-labelledby="methods-heading">
             <div class="pill">Methods</div>
-            <h1 id="methods-heading">Hybrid multi-agent factuality framework</h1>
+            <h1 id="methods-heading">Hybrid Multi-Agent Factuality Framework</h1>
             <p class="lede">
-              Our system combines a <strong>multi-agent orchestration layer</strong> built with Google’s
-              Agent Development Kit (ADK) and a set of <strong>supervised factuality models</strong> trained
+              Our hybrid system combines a <strong>multi-agent orchestration</strong> built with Google’s
+              Agent Development Kit (ADK) and a set of <strong>factuality factor machine learning models</strong> trained
               on LIAR-PLUS. The agents and models collaborate to evaluate news articles along
               four factuality dimensions and produce an interpretable, overall credibility
               assessment.
@@ -48,9 +48,9 @@
           </section>
 
           <section aria-labelledby="architecture-heading">
-            <h2 id="architecture-heading">System architecture overview</h2>
+            <h2 id="architecture-heading">System Architecture Overview</h2>
             <p>
-              We decompose factuality evaluation into three layers:
+              We decomposed the factuality evaluation process into three layers:
             </p>
             <ol>
               <li>
@@ -59,7 +59,7 @@
               </li>
               <li>
                 <strong>Parallel factuality analysis</strong> – four specialized LLM agents independently
-                score different factuality factors.
+                score different factuality factors in parallel.
               </li>
               <li>
                 <strong>Sequential score aggregation</strong> – a merger agent combines factor-level
@@ -67,7 +67,7 @@
               </li>
             </ol>
             <div class="card">
-              <div class="card-title">Three-layer multi-agent pipeline (conceptual)</div>
+              <div class="card-title">Thre Layer Pipeline</div>
               <div class="card-body">
                 <strong>Input</strong>: full news article text
                 <br />
@@ -78,7 +78,7 @@
                 heuristic, sensationalism, malicious account, naive realism)
                 <br />
                 <strong>Layer 3</strong>: Merger Agent aggregates factor scores and justifications into a
-                final credibility score and explanation.
+                final credibility score and explanation. Orchestrator agent runs given sub-agents sequentially.
               </div>
             </div>
           </section>
@@ -87,7 +87,7 @@
             <h2 id="claims-heading">Layer 1: Claim extraction &amp; verification</h2>
             <h3>Claim extraction agent</h3>
             <p>
-              The claim extraction agent decomposes an article into <strong>testable factual claims</strong>
+              The claim extraction agent decomposes an article into testable factual claims
               that satisfy three constraints:
             </p>
             <ul>
@@ -97,7 +97,7 @@
             </ul>
             <p>
               The agent outputs a structured list of claims that downstream components treat as
-              the <strong>unit of verification</strong>.
+              a unit of verification.
             </p>
 
             <h3>Claim verification agent with external search</h3>
@@ -128,15 +128,14 @@
               <div class="card">
                 <div class="card-title">Frequency heuristic agent</div>
                 <div class="card-body">
-                  Scores how strongly the article leans on <strong>repetition, bandwagon language, and
-                  popularity cues</strong> as substitutes for evidence. Input: full article text and
-                  claim-level context; Output: score (0–2), justification, confidence.
+                  Scores how strongly the article leans on repetition, bandwagon language, and
+                  popularity cues as substitutes for evidence.
                 </div>
               </div>
               <div class="card">
                 <div class="card-title">Sensationalism agent</div>
                 <div class="card-body">
-                  Evaluates <strong>emotional exaggeration and dramatic framing</strong>, using both
+                  Evaluates emotional exaggeration and dramatic framing, using both
                   lexical cues (e.g., all-caps, exclamation marks, “shocking” adjectives) and
                   sentiment analysis.
                 </div>
@@ -144,7 +143,7 @@
               <div class="card">
                 <div class="card-title">Malicious account agent</div>
                 <div class="card-body">
-                  Detects language patterns associated with <strong>inauthentic behavior</strong>, such as
+                  Detects language patterns associated with inauthentic behavior, such as
                   spam-like link density, high mention counts, or unusual punctuation and
                   capitalization ratios.
                 </div>
@@ -152,23 +151,23 @@
               <div class="card">
                 <div class="card-title">Naive realism agent</div>
                 <div class="card-body">
-                  Measures how dogmatically the article presents its viewpoint as <strong>the only
-                  reasonable truth</strong>, focusing on absolutist phrasing, dismissal of alternatives,
+                  Measures how dogmatically the article presents its viewpoint as the only
+                  reasonable truth, focusing on absolutist phrasing, dismissal of alternatives,
                   and lack of uncertainty markers.
                 </div>
               </div>
             </div>
             <p>
               All four agents are grouped under a <strong>ParallelAgent</strong> so that they can execute
-              concurrently, improving throughput. Importantly, agents do <strong>not share
-              intermediate analysis</strong>, preventing cross-contamination between factors.
+              concurrently. Importantly, agents do not share
+              intermediate analysis, preventing cross-contamination between factors.
             </p>
           </section>
 
           <section aria-labelledby="tools-heading">
             <h2 id="tools-heading">Tools: ML models as callable functions</h2>
             <p>
-              Each factuality factor agent has access to a <strong>supervised model</strong> exposed as a
+              Each factuality factor agent is equipped with a predictive model tool exposed as a
               callable tool within its prompt. During a typical run:
             </p>
             <ol>
@@ -178,28 +177,28 @@
                 <code>get_frequency_heuristic_prediction(text)</code>) to get a score and confidence.
               </li>
               <li>
-                It then combines its <strong>own qualitative analysis</strong> with the model prediction to
+                It then combines its own qualitative analysis with the model prediction to
                 produce a final score and justification.
               </li>
             </ol>
             <p>
               The prompt explicitly instructs agents to treat model outputs as
-              <strong>informative but not ground truth</strong>. If an agent disagrees with the model
+              informative but not ground truth If an agent disagrees with the model
               score, it must explain why. This hybrid design leverages:
             </p>
             <ul>
               <li>
-                Supervised models for <strong>pattern-based grounding</strong> learned from thousands of
+                Supervised models for pattern-based grounding learned from thousands of
                 labeled statements.
               </li>
               <li>
-                LLMs for <strong>contextual nuance and interpretability</strong> at the article level.
+                LLMs for contextual nuance and interpretability at the article level.
               </li>
             </ul>
           </section>
 
           <section aria-labelledby="orchestration-heading">
-            <h2 id="orchestration-heading">Layer 3: Sequential orchestration &amp; aggregation</h2>
+            <h2 id="orchestration-heading">Layer 3: Sequential Orchestration &amp; Aggregation</h2>
             <p>
               We use a <strong>SequentialAgent</strong> as the root controller of the system. Its job is to:
             </p>
@@ -213,12 +212,11 @@
             </p>
             <ul>
               <li>
-                Synthesizes the four factor-level outputs into an <strong>overall truthfulness
-                score</strong>.
+                Synthesizes the four factor-level outputs into an overall truthfulness
+                score.
               </li>
               <li>
-                Produces a joint <strong>natural language explanation</strong> that highlights which
-                factors drove the final assessment.
+                Produces a final truthfulness score and an explanation. 
               </li>
               <li>
                 Enforces a strict JSON schema for all agent outputs, improving reliability and
@@ -228,7 +226,7 @@
           </section>
 
           <section aria-labelledby="a2a-heading">
-            <h2 id="a2a-heading">Agent-to-Agent (A2A) deployment</h2>
+            <h2 id="a2a-heading">Agent-to-Agent (A2A) Deployment</h2>
             <p>
               To make the system easier to integrate into other applications, we deploy each
               specialized factuality factor agent as an <strong>Agent-to-Agent (A2A)</strong> service using
@@ -236,24 +234,20 @@
             </p>
             <ul>
               <li>
-                Each agent can run as a <strong>standalone service</strong> on its own network port, ready to
-                be composed into broader pipelines.
+                Each agent can run as a <strong>standalone service</strong> on its own port, ready to
+                be integrated into other future applications.
               </li>
               <li>
-                Execution environments are <strong>isolated</strong>, guaranteeing that prompts, tool calls,
+                Execution environments are isolated, guaranteeing that prompts, tool calls,
                 and outputs remain cleanly separated between factors.
               </li>
             </ul>
-            <p>
-              This A2A structure lets us plug our agents into interactive user interfaces and
-              other automated workflows without rewriting their internal logic.
-            </p>
           </section>
 
           <section aria-labelledby="methods-limits-heading">
             <h2 id="methods-limits-heading">Methodological trade-offs</h2>
             <p>
-              Our design makes several <strong>intentional trade-offs</strong>:
+              Our design has several trade-offs:
             </p>
             <ul>
               <li>
@@ -261,14 +255,10 @@
                 in supervised models and external evidence.
               </li>
               <li>
-                <strong>Cons</strong>: increased <strong>computational overhead</strong> from multi-agent orchestration
-                and multi-iteration reasoning (detailed on the Experiments and Results pages).
+                <strong>Cons</strong>: increased computational overheadfrom multi-agent orchestration
+                and multi-iteration reasoning.
               </li>
             </ul>
-            <p>
-              We discuss these trade-offs further when we look at runtime cost vs. performance
-              gains for different prompting strategies.
-            </p>
           </section>
         </div>
       </main>
@@ -278,10 +268,6 @@
           <div>
             <strong>DSC 180B Capstone · UC San Diego</strong>
             <div class="muted">Methodology overview</div>
-          </div>
-          <div class="muted">
-            Hybrid multi-agent + ML framework implemented with Google ADK and supervised
-            models trained on LIAR-PLUS.
           </div>
         </div>
       </footer>
