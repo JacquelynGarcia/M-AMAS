@@ -357,6 +357,175 @@ p {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.methods-arch-grid,
+.methods-layer-grid {
+  margin-top: 0.9rem;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.methods-section {
+  margin-top: 1.4rem;
+  padding-top: 0.9rem;
+}
+
+.methods-arch-grid .card,
+.methods-layer-grid .card {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+.methods-layer-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.12rem 0.55rem;
+  margin-right: 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.methods-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.methods-timeline li {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.methods-timeline li::before {
+  content: "";
+  position: absolute;
+  left: 0.4rem;
+  top: 0.2rem;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background-color: #0ea5e9;
+}
+
+.methods-timeline li::after {
+  content: "";
+  position: absolute;
+  left: 0.73rem;
+  top: 0.9rem;
+  bottom: -0.9rem;
+  width: 2px;
+  background-color: #e5e7eb;
+}
+
+.methods-timeline li:last-child::after {
+  display: none;
+}
+
+.methods-tools-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.4fr);
+  gap: 1.5rem;
+  margin-top: 0.9rem;
+}
+
+.methods-tools-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.methods-tools-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.methods-tools-step-label {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.methods-tools-step-body {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.methods-tools-notes {
+  border-left: 3px solid #e0f2fe;
+  padding-left: 0.9rem;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.methods-orch-layout {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.6fr);
+  gap: 1.4rem;
+}
+
+.methods-orch-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.methods-orch-node {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-size: 0.78rem;
+}
+
+.methods-orch-arrow {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.methods-orch-details {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.methods-a2a-strip {
+  margin-top: 0.8rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.8rem;
+  background-color: #f0f9ff;
+  border: 1px dashed #bae6fd;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.methods-a2a-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.5rem 0 0.3rem;
+}
+
+.methods-a2a-tag {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
 .card {
   background-color: #ffffff;
   border-radius: 0.9rem;

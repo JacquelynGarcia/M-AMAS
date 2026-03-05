@@ -47,12 +47,12 @@
             </p>
           </section>
 
-          <section aria-labelledby="architecture-heading">
-            <h2 id="architecture-heading">System Architecture Overview</h2>
+          <section aria-labelledby="architecture-heading" class="methods-section">
+            <h2 id="architecture-heading">System architecture overview</h2>
             <p>
               We decomposed the factuality evaluation process into three layers:
             </p>
-            <ol>
+            <ol class="methods-timeline">
               <li>
                 <strong>Claim extraction and verification</strong> – identify and verify atomic factual
                 claims in an article.
@@ -66,60 +66,54 @@
                 outputs into an overall truthfulness assessment.
               </li>
             </ol>
-            <div class="card">
-              <div class="card-title">Thre Layer Pipeline</div>
-              <div class="card-body">
-                <strong>Input</strong>: full news article text
-                <br />
-                <strong>Layer 1</strong>: Claim Extraction Agent → Claim Verification Agent (with web
-                search)
-                <br />
-                <strong>Layer 2</strong>: Four factuality factor agents running in parallel (frequency
-                heuristic, sensationalism, malicious account, naive realism)
-                <br />
-                <strong>Layer 3</strong>: Merger Agent aggregates factor scores and justifications into a
-                final credibility score and explanation. Orchestrator agent runs given sub-agents sequentially.
+          </section>
+
+          <section aria-labelledby="claims-heading" class="methods-section">
+            <h2 id="claims-heading"><span class="methods-layer-badge">Layer 1</span> Claim extraction &amp; verification</h2>
+            <div class="grid grid-2 methods-layer-grid">
+              <div class="card">
+                <div class="card-title">Claim extraction agent</div>
+                <div class="card-body">
+                  <p>
+                    The claim extraction agent decomposes an article into testable factual claims
+                    that satisfy three constraints:
+                  </p>
+                  <ul>
+                    <li>Factual rather than purely opinion or rhetoric.</li>
+                    <li>Testable against external sources.</li>
+                    <li>Self-contained and unambiguous.</li>
+                  </ul>
+                  <p>
+                    The agent outputs a structured list of claims that downstream components treat as
+                    the unit of verification.
+                  </p>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-title">Claim verification agent with external search</div>
+                <div class="card-body">
+                  <p>
+                    For each extracted claim, a verification agent calls a <strong>google_search</strong> tool
+                    within ADK to retrieve relevant evidence. For every claim, the agent:
+                  </p>
+                  <ol>
+                    <li>Constructs a targeted search query.</li>
+                    <li>Calls the search tool to retrieve candidate sources.</li>
+                    <li>Assesses the credibility and agreement of retrieved information.</li>
+                    <li>Assigns a verification status and confidence score.</li>
+                  </ol>
+                  <p>
+                    This follows a <strong>retrieval-augmented reasoning</strong> pattern: instead of
+                    relying solely on an LLM’s internal knowledge, it explicitly grounds its judgments
+                    in up-to-date external evidence, reducing hallucinations.
+                  </p>
+                </div>
               </div>
             </div>
           </section>
 
-          <section aria-labelledby="claims-heading">
-            <h2 id="claims-heading">Layer 1: Claim extraction &amp; verification</h2>
-            <h3>Claim extraction agent</h3>
-            <p>
-              The claim extraction agent decomposes an article into testable factual claims
-              that satisfy three constraints:
-            </p>
-            <ul>
-              <li>Factual rather than purely opinion or rhetoric.</li>
-              <li>Testable against external sources.</li>
-              <li>Self-contained and unambiguous.</li>
-            </ul>
-            <p>
-              The agent outputs a structured list of claims that downstream components treat as
-              a unit of verification.
-            </p>
-
-            <h3>Claim verification agent with external search</h3>
-            <p>
-              For each extracted claim, a verification agent calls a <strong>google_search</strong> tool
-              within ADK to retrieve relevant evidence. For every claim, the agent:
-            </p>
-            <ol>
-              <li>Constructs a targeted search query.</li>
-              <li>Calls the search tool to retrieve candidate sources.</li>
-              <li>Assesses the credibility and agreement of retrieved information.</li>
-              <li>Assigns a verification status and confidence score.</li>
-            </ol>
-            <p>
-              This design follows a <strong>retrieval-augmented reasoning</strong> pattern: instead of
-              relying solely on an LLM’s internal knowledge, it explicitly grounds its judgments
-              in up-to-date external evidence, reducing hallucinations.
-            </p>
-          </section>
-
-          <section aria-labelledby="factors-heading">
-            <h2 id="factors-heading">Layer 2: Parallel factuality factor agents</h2>
+          <section aria-labelledby="factors-heading" class="methods-section">
+            <h2 id="factors-heading"><span class="methods-layer-badge">Layer 2</span> Parallel factuality factor agents</h2>
             <p>
               The core analysis layer consists of four independent <strong>LlmAgent</strong> instances, each
               responsible for one factuality factor:
@@ -164,68 +158,69 @@
             </p>
           </section>
 
-          <section aria-labelledby="tools-heading">
+          <section aria-labelledby="tools-heading" class="methods-section">
             <h2 id="tools-heading">Tools: ML models as callable functions</h2>
-            <p>
-              Each factuality factor agent is equipped with a predictive model tool exposed as a
-              callable tool within its prompt. During a typical run:
-            </p>
-            <ol>
-              <li>The agent performs structured reasoning over the article text.</li>
-              <li>
-                It calls the corresponding predictive model (e.g.,
-                <code>get_frequency_heuristic_prediction(text)</code>) to get a score and confidence.
-              </li>
-              <li>
-                It then combines its own qualitative analysis with the model prediction to
-                produce a final score and justification.
-              </li>
-            </ol>
-            <p>
-              The prompt explicitly instructs agents to treat model outputs as
-              informative but not ground truth If an agent disagrees with the model
-              score, it must explain why. This hybrid design leverages:
-            </p>
-            <ul>
-              <li>
-                Supervised models for pattern-based grounding learned from thousands of
-                labeled statements.
-              </li>
-              <li>
-                LLMs for contextual nuance and interpretability at the article level.
-              </li>
-            </ul>
+            <div class="methods-tools-layout">
+              <div class="methods-tools-steps">
+                <div class="methods-tools-step">
+                  <div class="methods-tools-step-label">Step 1</div>
+                  <div class="methods-tools-step-body">
+                    The agent performs structured reasoning over the article text to decide what
+                    it wants to know.
+                  </div>
+                </div>
+                <div class="methods-tools-step">
+                  <div class="methods-tools-step-label">Step 2</div>
+                  <div class="methods-tools-step-body">
+                    It calls the corresponding predictive model tool (for example
+                    <code>get_frequency_heuristic_prediction(text)</code>) to get a score and confidence.
+                  </div>
+                </div>
+                <div class="methods-tools-step">
+                  <div class="methods-tools-step-label">Step 3</div>
+                  <div class="methods-tools-step-body">
+                    It then blends the tool output with its own explanation to produce a final
+                    score and justification.
+                  </div>
+                </div>
+              </div>
+              <div class="methods-tools-notes">
+                <p>
+                  Prompts tell agents to treat model outputs as <em>informative but not ground truth</em>.
+                  If an agent disagrees with the model score, it has to explain why. The hybrid
+                  design lets us:
+                </p>
+                <ul>
+                  <li>
+                    Use supervised models for pattern-based grounding learned from thousands of
+                    labeled statements.
+                  </li>
+                  <li>
+                    Lean on LLMs for contextual nuance and interpretability at the article level.
+                  </li>
+                </ul>
+              </div>
+            </div>
           </section>
 
-          <section aria-labelledby="orchestration-heading">
-            <h2 id="orchestration-heading">Layer 3: Sequential Orchestration &amp; Aggregation</h2>
+          <section aria-labelledby="orchestration-heading" class="methods-section">
+            <h2 id="orchestration-heading"><span class="methods-layer-badge">Layer 3</span> Sequential orchestration &amp; aggregation</h2>
             <p>
-              We use a <strong>SequentialAgent</strong> as the root controller of the system. Its job is to:
+              A <strong>SequentialAgent</strong> acts as the root controller and runs the full pipeline:
             </p>
-            <ol>
+            <ol class="methods-timeline">
               <li>Invoke claim extraction and verification.</li>
               <li>Launch parallel factuality factor evaluations.</li>
-              <li>Pass all factor outputs to a merger agent.</li>
+              <li>Pass all factor outputs to the merger agent.</li>
             </ol>
             <p>
-              The <strong>Merger Agent</strong>:
+              The merger agent then synthesizes the four factor-level outputs into an overall
+              truthfulness score, produces a final explanation that highlights which factors
+              mattered most, and enforces a strict JSON schema for all agent outputs.
             </p>
-            <ul>
-              <li>
-                Synthesizes the four factor-level outputs into an overall truthfulness
-                score.
-              </li>
-              <li>
-                Produces a final truthfulness score and an explanation. 
-              </li>
-              <li>
-                Enforces a strict JSON schema for all agent outputs, improving reliability and
-                making it easier to connect to front-end clients.
-              </li>
-            </ul>
           </section>
 
-          <section aria-labelledby="a2a-heading">
+          <section aria-labelledby="a2a-heading" class="methods-section">
             <h2 id="a2a-heading">Agent-to-Agent (A2A) Deployment</h2>
             <p>
               To make the system easier to integrate into other applications, we deploy each
@@ -235,7 +230,7 @@
             <ul>
               <li>
                 Each agent can run as a <strong>standalone service</strong> on its own port, ready to
-                be integrated into other future applications.
+                be integrated into future pipelines.
               </li>
               <li>
                 Execution environments are isolated, guaranteeing that prompts, tool calls,
@@ -244,7 +239,7 @@
             </ul>
           </section>
 
-          <section aria-labelledby="methods-limits-heading">
+          <section aria-labelledby="methods-limits-heading" class="methods-section">
             <h2 id="methods-limits-heading">Methodological trade-offs</h2>
             <p>
               Our design has several trade-offs:
