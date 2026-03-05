@@ -375,6 +375,25 @@ p {
   color: #4b5563;
 }
 
+.screenshot-placeholder {
+  margin-top: 1.5rem;
+}
+
+.screenshot-inner {
+  border-radius: 0.9rem;
+  border: 1.5px dashed #cbd5e1;
+  background-color: #f8fafc;
+  padding: 1.1rem 1.25rem;
+}
+
+.screenshot-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #64748b;
+  margin-bottom: 0.35rem;
+}
+
 .card-tags {
   display: flex;
   flex-wrap: wrap;
