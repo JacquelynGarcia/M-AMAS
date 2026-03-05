@@ -47,7 +47,7 @@
             <p >
               In a web where fact-checking systems are being dismantled and generative AI is making it trivial
               to manufacture convincing misinformation, users need tools that make credibility
-              <strong>transparent, interpretable, and actionable</strong>.
+              transparent, interpretable, and actionable.
             </p>
 
             <div class="hero-grid" aria-label="Project overview">
@@ -57,28 +57,28 @@
                   <li>
                     <span class="hero-list-bullet" aria-hidden="true">●</span>
                     <span>
-                      A <strong>three-layer multi-agent system</strong> in Google ADK that performs
+                      A three-layer multi-agent system in Google ADK that performs
                       claim extraction, parallel factuality analysis, and score aggregation.
                     </span>
                   </li>
                   <li>
                     <span class="hero-list-bullet" aria-hidden="true">●</span>
                     <span>
-                      Four <strong>supervised models</strong> trained on LIAR-PLUS for frequency
+                      Four supervised models trained on LIAR-PLUS for frequency
                       heuristic, sensationalism, malicious account, and naive realism.
                     </span>
                   </li>
                   <li>
                     <span class="hero-list-bullet" aria-hidden="true">●</span>
                     <span>
-                      A series of <strong>prompting experiments</strong> from zero-shot baselines to
-                      <em>Fractal Chain-of-Thought</em> (FCoT) reasoning with tool calling.
+                      A series of prompting experiments from zero-shot baselines to
+                      <strong>Fractal Chain-of-Thought</strong> (FCoT) reasoning with tool calling.
                     </span>
                   </li>
                   <li>
                     <span class="hero-list-bullet" aria-hidden="true">●</span>
                     <span>
-                      An <strong>interactive factuality evaluation interface</strong> that exposes the
+                      An interactive factuality evaluation interface that exposes the
                       agents and models to end users.
                     </span>
                   </li>
@@ -154,18 +154,18 @@
           <section aria-labelledby="problem-heading">
             <h2 id="problem-heading">Problem &amp; motivation</h2>
             <p>
-              Fact-checking programs at large platforms have been <strong>scaled back or shut
-              down</strong>, even as generative AI makes it trivial to produce realistic but deceptive
+              Fact-checking programs at large platforms have been scaled back or shut
+              down, even as generative AI makes it trivial to produce realistic but deceptive
               content. Traditional pipelines that rely on centralized labels and human
-              fact-checkers cannot keep up with the <strong>volume, speed, and subtlety</strong> of
+              fact-checkers cannot keep up with the volume, speed, and subtlety of
               modern misinformation.
             </p>
             <p>
-              We focus on <strong>linguistic and contextual mechanisms</strong> that make content
+              We focus on linguistic and contextual mechanisms that make content
               misleading even when individual sentences are technically true: repetition as
               evidence, emotional framing, bandwagon rhetoric, and one-sided narratives that
               omit key context. Our target users are
-              <strong>curious readers, journalists, and researchers</strong> who want interpretable
+              curious readers, journalists, and researchers who want interpretable
               signals about how a piece of text might be manipulating them.
             </p>
           </section>
@@ -177,9 +177,9 @@
                 <div class="card-title">Multi-agent architecture</div>
                 <div class="card-body">
                   We build our system in three layers using Google’s Agent Development Kit:
-                  (1) a <strong>claim extraction and verification</strong> pipeline augmented with web
-                  search, (2) a <strong>parallel factuality analysis layer</strong> with four specialized
-                  LLM agents, and (3) a <strong>sequential aggregation layer</strong> that merges scores
+                  (1) a claim extraction and verification pipeline augmented with web
+                  search, (2) a parallel factuality analysis layer with four specialized
+                  LLM agents, and (3) a sequential aggregation layer that merges scores
                   into an overall credibility assessment.
                 </div>
                 <div class="card-tags" aria-label="Related pages">
@@ -191,11 +191,11 @@
               <div class="card">
                 <div class="card-title">Supervised factuality models</div>
                 <div class="card-body">
-                  Using the <strong>LIAR-PLUS</strong> dataset (12.8K fact-checked political statements
+                  Using the LIAR-PLUS dataset (12.8K fact-checked political statements
                   plus scraped PolitiFact extensions), we train four supervised models to score
                   frequency heuristic, sensationalism, malicious accounts, and naive realism from
                   linguistic features and metadata. These models are exposed to the agents as
-                  <strong>callable tools</strong>.
+                  callable tools.
                 </div>
                 <div class="card-tags">
                   <span class="tag">See: <a href="data.html">Data</a></span>
@@ -221,9 +221,9 @@
               <div class="card">
                 <div class="card-title">Evaluation &amp; limitations</div>
                 <div class="card-body">
-                  On our 40-article ground truth set, structured prompts <strong>consistently beat</strong>
+                  On our 40-article ground truth set, structured prompts consistently beat
                   naive baselines, especially for Malicious Account detection. However, Naive
-                  Realism remains challenging, and FCoT introduces <strong>higher compute costs</strong>
+                  Realism remains challenging, and FCoT introduces higher compute costs
                   due to multi-iteration reasoning. We discuss these trade-offs and failure modes
                   in detail.
                 </div>
@@ -239,20 +239,20 @@
             <h2 id="so-what-heading">So what?</h2>
             <p>
               Our system is not a binary “true / false” oracle. Instead, it surfaces
-              <strong>multiple interpretable signals</strong> about how a piece of text may mislead and
-              explains <strong>why</strong> it assigned each score. This is intended to:
+              multiple interpretable signals about how a piece of text may mislead and
+              explains why it assigned each score. This is intended to:
             </p>
             <ul>
               <li>
-                Help readers <strong>spot rhetorical tricks</strong> like repetition-as-evidence and
+                Help readers spot rhetorical tricks like repetition-as-evidence and
                 emotionally charged framing.
               </li>
               <li>
-                Give journalists and researchers a <strong>diagnostic lens</strong> for comparing outlets,
+                Give journalists and researchers a diagnostic lens for comparing outlets,
                 articles, or time periods.
               </li>
               <li>
-                Provide a <strong>template for building safer LLM-based evaluators</strong> that emphasize
+                Provide a template for building safer LLM-based evaluators that emphasize
                 structured reasoning, calibration, and tool grounding.
               </li>
             </ul>
