@@ -106,6 +106,7 @@
                     <td>0.525</td>
                     <td>0.475</td>
                   </tr>
+                  <tr>
                     <td>FCoT 3</td>
                     <td>0.525</td>
                     <td>0.95</td>
@@ -136,7 +137,7 @@
                   Accuracy jumps from <strong>0.3</strong> (Base) to <strong>0.675</strong> with ICL and stabilizes
                   around <strong>0.65</strong> with FCoT 4. The big gain from ICL suggests that clearly
                   labeled examples are especially effective for teaching the model the
-                  difference between legitimate consensus and manipulative “everyone knows”
+                  difference between legitimate consensus and manipulative "everyone knows"
                   rhetoric.
                 </div>
               </div>
@@ -145,14 +146,14 @@
                 <div class="card-body">
                   The Malicious Account factor sees the most dramatic improvement, from
                   <strong>0.10</strong> (base) to <strong>0.95</strong> (FCoT 4). Early prompts often over-predicted
-                  deception and hallucinated article sources. FCoT’s hallucination
-                  constraints and multi-iteration analysis made the agent much moreaccurate.
+                  deception and hallucinated article sources. FCoT's hallucination
+                  constraints and multi-iteration analysis made the agent much more accurate.
                 </div>
               </div>
               <div class="card">
                 <div class="card-title">Sensationalism</div>
                 <div class="card-body">
-                  Sensationalism accuracy 
+                  Sensationalism accuracy improves with ICL and FCoT, reaching <strong>0.675</strong> with FCoT 4.
                 </div>
               </div>
               <div class="card">
@@ -160,22 +161,15 @@
                 <div class="card-body">
                   Naive Realism is the hardest factor to optimize. Accuracy improves
                   slightly from <strong>0.38</strong> (base) to the mid-0.40s for more complex prompts. This suggests that dogmatic
-                  perspective-taking is more subtle and context-dependent than the other. 
-                  heuristics.
+                  perspective-taking is more subtle and context-dependent than the other heuristics.
                 </div>
               </div>
             </div>
-            <figure class="screenshot-placeholder" aria-label="Example article view placeholder">
-              <div class="screenshot-inner">
-                <div class="screenshot-label">Example article view (UI screenshot)</div>
-                <p>
-                  Placeholder for a screenshot of the project interface scoring a single news article
-                  across the four factuality factors. 
-                </p>
-              </div>
+            <figure class="demo-screenshots" aria-label="Project UI demo">
+              <img src="assets/demo-ui.png" alt="Multi-Agent Misinformation Analysis System interface showing article input, agent performance table, and factuality analysis output with synopsis and scores" />
+              <figcaption>Project interface: article input, agent performance, and factuality analysis</figcaption>
             </figure>
           </section>
-
 
           <section aria-labelledby="cost-heading">
             <h2 id="cost-heading">Computational Cost</h2>
@@ -189,11 +183,9 @@
             </ul>
             <p>
               This leads to noticeably higher token usage and runtime compared to
-              base prompts. 
+              base prompts.
             </p>
           </section>
-
-
         </div>
       </main>
 
@@ -208,4 +200,3 @@
     </div>
   </body>
 </html>
-
