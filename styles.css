@@ -220,6 +220,7 @@ p {
   box-shadow: 0 1px 3px rgba(30, 58, 95, 0.06);
 }
 
+
 .hero-metrics {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
