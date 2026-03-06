@@ -125,6 +125,22 @@ nav {
   padding-bottom: 2.3rem;
 }
 
+/* Data page: smaller gap between title and first subheader */
+.page-data .content > section:first-of-type {
+  padding-bottom: 0.9rem;
+}
+.page-data .content > section:nth-of-type(2) > h2:first-child {
+  margin-top: 1.25rem;
+}
+
+/* Methods page: smaller gap between intro and first subheader */
+.page-methods .content > section:first-of-type {
+  padding-bottom: 0.9rem;
+}
+.page-methods .content > section:nth-of-type(2) > h2:first-child {
+  margin-top: 1.25rem;
+}
+
 .site-footer {
   border-top: 1px solid #e2e4e8;
   padding: 1.25rem 1.25rem 1.75rem;
