@@ -45,9 +45,10 @@
               factuality factor accuracy compared to naive baselines, while reducing
               hallucinations and misclassifications.
             </p>
-            <p class="tagline">
-              We evaluate all prompting strategies on <strong>40 hand-labeled news articles</strong> and
-              report accuracy per factuality factor.
+            <p>
+              Our primary evaluation metric was accuracy, measured against our ground-truth dataset of 40 hand-labeled articles. To rigorously measure the impact of our prompt engineering, we established a zero-shot baseline for each factuality factor. This baseline asked the model to score the article using only the core definitions of the factor, without any examples or complex reasoning steps.
+
+              As shown in the data below, the baseline performance was generally poor, with the Malicious Account agent scoring as low as 0.1 accuracy. By progressively layering techniques, moving from In-Context Learning (ICL) to Function Calling, and finally to Fractal Chain-of-Thought (FCoT), we were able to see which reasoning structures drove performance improvements, ultimately pushing our Malicious Account accuracy to 0.95.
             </p>
           </section>
 
@@ -154,7 +155,7 @@
               <div class="card">
                 <div class="card-title">Sensationalism</div>
                 <div class="card-body">
-                  Sensationalism accuracy improves with ICL and FCoT, reaching <strong>0.675</strong> with FCoT 4.
+                  Accuracy improved steadily from <strong>0.425</strong> (base) to <strong>0.675</strong> (FCoT 4). Early prompts struggled with penalizing neutral journalists who simply quoted a politician's highly exaggerated or sensational statements. By the final FCoT 4 prompt, we explicitly instructed the agent to differentiate between the author’s own narrative voice and direct quotes. This allowed the system to better detect when an article was weaponizing emotionally charged superlatives or prioritizing high-shock-value anecdotes over objective reporting.
                 </div>
               </div>
               <div class="card">
@@ -169,19 +170,18 @@
           </section>
 
           <section aria-labelledby="cost-heading">
-            <h2 id="cost-heading">Computational Cost</h2>
+            <h2 id="cost-heading">Limitations</h2>
             <p>
-              Fractal Chain-of-Thought improves accuracy and reduces hallucination, but it
-              does so by:
+              While our multi-agent framework successfully improved factuality evaluation, we encountered several limitations during deployment:
             </p>
             <ul>
-              <li>Enforcing three internal analysis iterations per agent.</li>
-              <li>Requiring explicit coverage checklists and objective scores per iteration.</li>
+              <li>
+                <strong>Computational overhead &amp; token consumption.</strong> The most successful prompting strategy, Fractal Chain-of-Thought (FCoT), requires three internal reasoning loops per agent, running in parallel across four different factuality factors. This multi-iterative approach drastically increases both token usage and processing time compared to a standard zero-shot prompt, introducing a trade-off between accuracy and computational efficiency.
+              </li>
+              <li>
+                <strong>Quotation vs. author voice.</strong> Early iterations of our system suffered from false positives by penalizing journalists who simply quoted a politician's exaggerated statements. While FCoT 4 largely corrected this by instructing the agent to isolate the author's narrative voice, highly blended articles can still occasionally confuse the agents.
+              </li>
             </ul>
-            <p>
-              This leads to noticeably higher token usage and runtime compared to
-              base prompts.
-            </p>
           </section>
 
           <section aria-labelledby="demo-heading">
