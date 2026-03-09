@@ -1346,6 +1346,23 @@ li {
   .team-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  .methods-tools-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .methods-tools-step-body {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+
+  .methods-tools-notes {
+    margin-top: 0.5rem;
+    padding-top: 0.9rem;
+    border-left: none;
+    border-top: 3px solid #e0f2fe;
+    padding-left: 0;
+  }
 }
 
 @media (max-width: 480px) {
