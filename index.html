@@ -39,17 +39,17 @@
           <section aria-labelledby="hero-heading">
             <div class="pill">HOME</div>
             <h1 id="hero-heading">
-              A Mulit-Agent System for Detecting Misinformation and Explaining How Online Text Misleads
+              A Multi-Agent System for Detecting Misinformation and Explaining How Online Text Misleads
             </h1>
             <p class="lede">
-              Distinguishing fact from fiction has become increasingly difficult with the rise of artificial intelligence and an overwhelming amount of online information. As major tech companies scale back their content verification programs, the burden of credibility assessment has fallen entirely on individual users. Our project addresses this critical gap by presenting a multi-agent system for factuality evaluation of online text. By evaluating distinct factuality dimensions, this work empowers users to independently verify the reliability of online content and contributes toward a more informed digital ecosystem.
+              Distinguishing fact from fiction has become increasingly difficult with the rise of artificial intelligence and an overwhelming amount of online information. As major tech companies scale back their content verification programs, the burden of credibility assessment has fallen entirely on individual users. Our project addresses this critical gap by presenting a hybrid machine learning and multi-agent system for factuality evaluation of online text. By evaluating distinct factuality dimensions, this work empowers users to independently verify the reliability of online content and contributes toward a more informed digital ecosystem.
             </p>
 
             <div class="hero-grid" aria-label="Project overview">
               <div class="hero-panel" aria-label="Core story">
                 <div class="pill pill-secondary">Overview</div>
                 <h2>What we built</h2>
-                <ul class="hero-list">
+                <!-- <ul class="hero-list">
                   <li>
                     <span class="hero-list-bullet" aria-hidden="true">●</span>
                     <span>
@@ -78,7 +78,8 @@
                       agents and models to end users and allows them to draw their own conclusions.
                     </span>
                   </li>
-                </ul>
+                </ul> -->
+                We developed an interactive factuality evaluation web app that evaluates the credibility of news articles. Powered by a multi-agent architecture and four predictive machine learning models, the system scores text across multiple factuality dimensions and provides users with detailed, step-by-step reasoning to help them identify misleading rhetoric.
 
                 <div class="hero-actions" aria-label="Key links">
                   <a
@@ -126,18 +127,6 @@
                     <div class="metric-value">0.475</div>
                     <div class="metric-caption">Best: FCoT 3</div>
                   </div>
-                  <div class="metric">
-                    <div class="metric-label">Articles evaluated</div>
-                    <div class="metric-value">40</div>
-                    <div class="metric-caption">Hand-labeled ground truth set</div>
-                  </div>
-                  <div class="metric">
-                    <div class="metric-label">Factuality factors</div>
-                    <div class="metric-value">4</div>
-                    <div class="metric-caption">
-                      Frequency, Malicious, Sensationalism, Naive Realism
-                    </div>
-                  </div>
                 </div>
                 <p class="note">
                   Evaluation details and full tables are on the <a href="results.html">Results</a>
@@ -167,7 +156,7 @@
                   We build our system in three layers using Google’s Agent Development Kit (ADK):
                   (1) a claim extraction and verification pipeline augmented with web
                   search, (2) a parallel factuality analysis layer with four specialized
-                  LLM agents, and (3) a sequential aggregation layer that merges scores
+                  LLM agents equipped with machine learning models, and (3) a sequential aggregation layer that merges scores
                   into an overall credibility assessment and explanation.
                 </div>
                 <div class="card-tags" aria-label="Related pages">
@@ -182,7 +171,7 @@
                   Using the LIAR-PLUS dataset, we trained four machine learning models to score
                   frequency heuristic, sensationalism, malicious accounts, and naive realism based on
                   linguistic features and metadata. These models are exposed to the agents as
-                  callable tools.
+                  callable agent tools.
                 </div>
                 <div class="card-tags">
                   <span class="tag">See: <a href="data.html">Data</a></span>
